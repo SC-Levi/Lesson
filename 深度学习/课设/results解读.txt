@@ -1,0 +1,22 @@
+Epoch	训练轮数
+gpu_mem       占用GPU内存
+box       	训练集的GIoU loss,是源自IoU的一种边框预测的损失计算方法
+obj       	训练集的Objectness loss，Objectness本质上是物体存在于感兴趣区域内的概率的度量。
+cls     	训练集的classification loss,将检测到的对象分类为各种类别（猫，狗，飞机等）的损失。
+total    	总loss，为上述三种损失之和
+labels    	targets的数量，一轮检测到的类别数目
+img_size	输入图片分辨率
+P	查准率TP/(TP+FP)	
+R 	查全率TP/P
+mAP@.5  测试集的mAP50，指IOU阈值设定为0.50时数据集的平均准确率
+mAP@.5-.95 	测试集表示在不同IoU阈值（从0.5到0.95，步长0.05）上的平均准确率
+val_loss(box obj         cls)分别对应测试集的GIoU loss，Objectness loss，classification loss
+
+loss与val_loss的变化反映出训练走向的规律总结：
+train loss 不断下降，test loss不断下降，说明网络仍在学习;（最好的）
+train loss 不断下降，test loss趋于不变，说明网络过拟合;（max pool或者正则化）
+train loss 趋于不变，test loss不断下降，说明数据集100%有问题;（检查dataset）
+train loss 趋于不变，test loss趋于不变，说明学习遇到瓶颈，需要减小学习率或批量数目;（减少学习率）
+train loss 不断上升，test loss不断上升，说明网络结构设计不当，训练超参数设置不当，数据集经过清洗等问题。（最不好的情况）
+
+本项目的训练集的损失不断下降，平均精度不断提高，测试集的损失不断下降，平均精度不断提高，说明网络仍然在学习。
